@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        // 因为使用的 Kotlin 需要需要添加 Kotlin 插件 https://plugins.gradle.org/plugin/org.jetbrains.kotlin.kapt/1.6.10
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"  //gradle7.1.2 最高兼容kotlin1.6.21
+    }
+
+}
+plugins {
+    id 'java-gradle-plugin'
+}
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation gradleApi()
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+gradlePlugin {
+    plugins {
+        version {
+            // 在 app 模块需要通过 id 引用这个插件
+            id = 'com.dlh.versionkotlinplugin'
+            // 实现这个插件的类的路径
+            implementationClass = 'com.dlh.versionkotlinplugin.VersionKotlinPlugin'
+        }
+    }
+}

@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    //下面这行必须有，引用插件框架
+    id "com.dlh.versionplugin"//java
+    id 'com.dlh.versionkotlinplugin'//kotlin
+
+}
+
+//下面这行必须有，为了添加包下的类
+import com.dlh.versionplugin.*
+import  com.dlh.versionkotlinplugin.*
+
+
+android {
+    namespace 'com.dlh.dependenciesdemo'
+//    compileSdk AndroidKotlinConfig.compileSdk
+    compileSdk AndroidConfig.compileSdk
+    defaultConfig {
+        applicationId "com.dlh.dependenciesdemo"
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk AndroidKotlinConfig.targetSdk
+        versionCode AndroidKotlinConfig.versionCode
+        versionName AndroidKotlinConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+// 在module的build.gradle文件中引用
+def vs = rootProject.ext.versions
+// 然后在module的build.gradle文件中用下面的方式来引用：
+def config_deps = rootProject.ext.deps
+dependencies {
+    implementation Deps.androidxCore
+    implementation DepsKotlin.appcompat
+    implementation Libs.material
+    implementation libs.retrofit
+    implementation config_deps.constraintlayout
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

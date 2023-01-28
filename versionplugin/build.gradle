@@ -1,0 +1,17 @@
+plugins {
+    id 'java-gradle-plugin'
+
+}
+dependencies {
+    implementation gradleApi()
+}
+
+gradlePlugin {
+    plugins {
+        version {
+            id = 'com.dlh.versionplugin'
+            implementationClass = 'com.dlh.versionplugin.VersionPlugin'
+        }
+    }
+}
+ 
